@@ -1,0 +1,69 @@
+import java.util.Scanner;
+import java.util.Stack;
+
+//Made 2 methods, main to call whether isValid() is true then return VALID otherwise INVALID
+//isValid method returns a boolean depending on if the input has correct syntax
+
+public class syntaxCheck {
+    public static void main(String[] args) {
+        Scanner keyboard = new Scanner(System.in);
+        boolean result = isValid(keyboard.nextLine());
+        if (result) {
+            System.out.println("VALID");
+        } else {
+            System.out.println("INVALID");
+        }
+    }
+
+    static boolean isValid(String in) {
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < in.length(); i++) {
+            if (in.charAt(i) == '(' || in.charAt(i) == 'R' ||
+                    in.charAt(i) == 'P' || in.charAt(i) == 'S') {
+                stack.push(in.charAt(i));
+                if ((in.charAt(i) == '(' || in.charAt(i) == '&') && i == in.length() - 1) {
+                    return false;
+                }
+            }
+            else {
+                if (stack.empty()){
+                    return false;
+                }
+                char charPop = stack.pop();
+                if (charPop == '(' && in.charAt(i) != ')'){
+                    return false;
+                }
+                if (charPop == 'R' && in.charAt(i) == '&' && (in.charAt(i++) == 'R')){
+                    return true;
+                }
+                if (charPop == 'R' && in.charAt(i) == '&' && (in.charAt(i++) == 'P')) {
+                    return true;
+                }
+                if (charPop == 'R' && in.charAt(i) == '&' && (in.charAt(i++) == 'S')) {
+                    return true;
+                }
+                if (charPop == 'P' && in.charAt(i) == '&' && (in.charAt(i++) == 'R')) {
+                    return true;
+                }
+                if (charPop == 'P' && in.charAt(i) == '&' && (in.charAt(i++) == 'P')) {
+                    return true;
+                }
+                if (charPop == 'P' && in.charAt(i) == '&' && (in.charAt(i++) == 'S')) {
+                    return true;
+                }
+                if (charPop == 'S' && in.charAt(i) == '&' && (in.charAt(i++) == 'R')) {
+                    return true;
+                }
+                if (charPop == 'S' && in.charAt(i) == '&' && (in.charAt(i++) == 'P')) {
+                    return true;
+                }
+                if (charPop == 'S' && in.charAt(i) == '&' && (in.charAt(i++) == 'S')) {
+                    return true;
+                }
+            }
+
+
+        }
+        return true;
+    }
+}
